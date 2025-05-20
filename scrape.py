@@ -24,12 +24,20 @@ async def scrape_and_update(source: str):
 
             if source == "jupiter":
                 print("Waiting for selector...")
-                await page.wait_for_selector('[data-testid="value-card-open-interest"]', timeout=10000)
-                print("Selector found.")
-                parent_handle = page.locator('[data-testid="value-card-open-interest"]').locator('..')
-                aria_label = await parent_handle.get_attribute('aria-label')
+                await page.wait_for_selector('.MuiBox-root.css-wwjdvd', timeout=30000)
 
-                print(f"[GMX] Open Interest (aria-label): {aria_label}")
+                # Get all matching elements
+                elements = await page.query_selector_all('.MuiBox-root.css-wwjdvd')
+
+                # Access the first element in the list
+                if elements:
+                    aria_label = await elements[1].get_attribute('aria-label')
+                    print("Aria-label of first element:", aria_label)
+                else:
+                    print("No elements found.")
+                
+
+                print(f"[jupiter] Open Interest (aria-label): {aria_label}")
 
                 if aria_label:
                     price_value = float(aria_label.replace('$', '').replace(',', '').strip())
