@@ -5,7 +5,7 @@ async def scrape_jupiter():
     async with async_playwright() as p:
         # Launch browser with stealth settings
         browser = await p.chromium.launch(
-            headless=False,
+            headless=True,
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--start-maximized"
