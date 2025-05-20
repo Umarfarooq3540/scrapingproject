@@ -7,9 +7,9 @@ async def scrape_and_update(source: str):
     data = {}
 
     async with async_playwright() as p:
-        browser = await p.chromium.launch(headless=True)
-          browser = await p.chromium.launch(
-            headless=True,
+        # Launch browser with stealth settings
+        browser = await p.chromium.launch(
+            headless=False,
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--start-maximized"
