@@ -9,7 +9,7 @@ async def scrape_and_update(source: str):
     async with async_playwright() as p:
         # Launch browser with stealth settings
         browser = await p.chromium.launch(
-            headless=False,
+            headless=True,
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--start-maximized"
