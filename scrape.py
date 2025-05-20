@@ -24,6 +24,8 @@ async def scrape_and_update(source: str):
 
             if source == "jupiter":
                 print("Waiting for selector...")
+                html = await page.content()
+                print(html[:2000])
                 await page.wait_for_selector('.MuiBox-root.css-wwjdvd', timeout=30000)
 
                 # Get all matching elements
