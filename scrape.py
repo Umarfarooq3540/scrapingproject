@@ -8,7 +8,22 @@ async def scrape_and_update(source: str):
 
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        page = await browser.new_page()
+          browser = await p.chromium.launch(
+            headless=True,
+            args=[
+                "--disable-blink-features=AutomationControlled",
+                "--start-maximized"
+            ]
+        )
+        
+        # Create new context with custom permissions
+        context = await browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            viewport={"width": 1366, "height": 768},
+            java_script_enabled=True
+        )
+        
+        page = await context.new_page()
 
         try:
             if source == "gmx":
@@ -18,7 +33,7 @@ async def scrape_and_update(source: str):
             else:
                 raise ValueError("Unknown source")
                 
-            await page.goto(url, timeout=60000)
+            await page.goto(url, timeout=30000)
 
             if source == "jupiter":
                 await page.wait_for_selector('[data-testid="value-card-open-interest"]', timeout=30000)
