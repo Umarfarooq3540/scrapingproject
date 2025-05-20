@@ -18,10 +18,14 @@ async def scrape_and_update(source: str):
             else:
                 raise ValueError("Unknown source")
 
+            print("URL:", url)
             await page.goto(url, timeout=60000)
+            
 
             if source == "jupiter":
+                print("Waiting for selector...")
                 await page.wait_for_selector('[data-testid="value-card-open-interest"]', timeout=10000)
+                print("Selector found.")
                 parent_handle = page.locator('[data-testid="value-card-open-interest"]').locator('..')
                 aria_label = await parent_handle.get_attribute('aria-label')
 
