@@ -18,7 +18,7 @@ async def scrape_and_update(source: str):
             else:
                 raise ValueError("Unknown source")
                 
-            await page.goto(url, wait_until="networkidle")
+            await page.goto(url, timeout=60000)
 
             if source == "jupiter":
                 await page.wait_for_selector('[data-testid="value-card-open-interest"]', timeout=30000)
